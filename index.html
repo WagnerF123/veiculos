@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Mercadorias de Veículos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #28a745;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    table {
+      margin: 40px auto;
+      width: 95%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    .btn-excluir {
+      background-color: #dc3545;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    .btn-excluir:hover {
+      background-color: #c82333;
+    }
+    .btn-editar {
+      background-color: #ffc107;
+      color: black;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-editar:hover {
+      background-color: #e0a800;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Cadastro de Mercadorias de Veículos</h1>
+
+<form id="cadastroForm">
+  <label for="entrada">Data de Entrada:</label>
+  <input type="date" id="entrada" required>
+
+  <label for="saida">Data de Saída:</label>
+  <input type="date" id="saida">
+
+  <label for="vendeu">Para Quem Vendeu:</label>
+  <input type="text" id="vendeu">
+
+  <label for="dadosVeiculo">Dados do Veículo:</label>
+  <input type="text" id="dadosVeiculo" required>
+
+  <label for="compradoDe">Comprado de:</label>
+  <input type="text" id="compradoDe" required>
+
+  <label for="anoVeiculo">Ano do Veículo:</label>
+  <input type="number" id="anoVeiculo" required>
+
+  <label for="pagamento">Forma de Pagamento:</label>
+  <select id="pagamento" required>
+    <option value="">Selecione...</option>
+    <option value="Dinheiro">Dinheiro</option>
+    <option value="Cartão">Cartão</option>
+    <option value="Pix">Pix</option>
+    <option value="Transferência">Transferência</option>
+    <option value="Outro">Outro</option>
+  </select>
+
+  <label for="valorEntrada">Valor de Entrada (R$):</label>
+  <input type="number" id="valorEntrada" step="0.01" required>
+
+  <label for="valorSaida">Valor de Saída (R$):</label>
+  <input type="number" id="valorSaida" step="0.01">
+
+  <button type="submit" id="submitButton">Cadastrar</button>
+</form>
+
+<table id="tabelaCadastros">
+  <thead>
+    <tr>
+      <th>Data de Entrada</th>
+      <th>Data de Saída</th>
+      <th>Para Quem Vendeu</th>
+      <th>Dados do Veículo</th>
+      <th>Comprado de</th>
+      <th>Ano do Veículo</th>
+      <th>Forma de Pagamento</th>
+      <th>Valor de Entrada</th>
+      <th>Valor de Saída</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<div style="max-width: 800px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+  <h2>Resumo do Mês</h2>
+  <p><strong>Total de Compras:</strong> <span id="totalCompras">0</span></p>
+  <p><strong>Total de Vendas:</strong> <span id="totalVendas">0</span></p>
+  <p><strong>Lucro Estimado:</strong> R$ <span id="lucro">0.00</span></p>
+</div>
+
+<script>
+  let linhaEditando = null;
+  let cadastros = [];
+
+  function salvarNoLocalStorage() {
+    localStorage.setItem("cadastrosVeiculos", JSON.stringify(cadastros));
+  }
+
+  function carregarCadastros() {
+    const dados = localStorage.getItem("cadastrosVeiculos");
+    if (dados) {
+      cadastros = JSON.parse(dados);
+      atualizarTabela();
+    }
+  }
+
+  function adicionarLinhaNaTabela(cadastro, index) {
+    const tabela = document.querySelector("#tabelaCadastros tbody");
+    const novaLinha = document.createElement("tr");
+
+    novaLinha.innerHTML = `
+      <td>${cadastro.entrada}</td>
+      <td>${cadastro.saida || "-"}</td>
+      <td>${cadastro.vendeu || "-"}</td>
+      <td>${cadastro.dadosVeiculo}</td>
+      <td>${cadastro.compradoDe}</td>
+      <td>${cadastro.anoVeiculo}</td>
+      <td>${cadastro.pagamento}</td>
+      <td>R$ ${parseFloat(cadastro.valorEntrada).toFixed(2)}</td>
+      <td>${cadastro.valorSaida ? "R$ " + parseFloat(cadastro.valorSaida).toFixed(2) : "-"}</td>
+      <td>
+        <button class="btn-editar">Editar</button>
+        <button class="btn-excluir">Excluir</button>
+      </td>
+    `;
+
+    novaLinha.querySelector(".btn-excluir").addEventListener("click", function () {
+      if (confirm("Tem certeza que deseja excluir este cadastro?")) {
+        cadastros.splice(index, 1);
+        salvarNoLocalStorage();
+        atualizarTabela();
+      }
+    });
+
+    novaLinha.querySelector(".btn-editar").addEventListener("click", function () {
+      document.getElementById("entrada").value = cadastro.entrada;
+      document.getElementById("saida").value = cadastro.saida;
+      document.getElementById("vendeu").value = cadastro.vendeu;
+      document.getElementById("dadosVeiculo").value = cadastro.dadosVeiculo;
+      document.getElementById("compradoDe").value = cadastro.compradoDe;
+      document.getElementById("anoVeiculo").value = cadastro.anoVeiculo;
+      document.getElementById("pagamento").value = cadastro.pagamento;
+      document.getElementById("valorEntrada").value = cadastro.valorEntrada;
+      document.getElementById("valorSaida").value = cadastro.valorSaida;
+
+      linhaEditando = index;
+      document.getElementById("submitButton").textContent = "Salvar Alteração";
+      window.scrollTo(0, 0);
+    });
+
+    tabela.appendChild(novaLinha);
+  }
+
+  function atualizarTabela() {
+    const tabela = document.querySelector("#tabelaCadastros tbody");
+    tabela.innerHTML = "";
+
+    let totalCompras = 0;
+    let totalVendas = 0;
+    let lucro = 0;
+
+    cadastros.forEach((cadastro, index) => {
+      adicionarLinhaNaTabela(cadastro, index);
+      totalCompras++;
+
+      if (cadastro.valorSaida && parseFloat(cadastro.valorSaida) > 0) {
+        totalVendas++;
+        lucro += parseFloat(cadastro.valorSaida) - parseFloat(cadastro.valorEntrada || 0);
+      }
+    });
+
+    document.getElementById("totalCompras").innerText = totalCompras;
+    document.getElementById("totalVendas").innerText = totalVendas;
+    const lucroSpan = document.getElementById("lucro");
+    lucroSpan.innerText = lucro.toFixed(2);
+    lucroSpan.style.color = lucro < 0 ? "red" : "green";
+  }
+
+  document.getElementById("cadastroForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const entrada = document.getElementById("entrada").value;
+    const saida = document.getElementById("saida").value;
+    const vendeu = document.getElementById("vendeu").value;
+    const dadosVeiculo = document.getElementById("dadosVeiculo").value;
+    const compradoDe = document.getElementById("compradoDe").value;
+    const anoVeiculo = document.getElementById("anoVeiculo").value;
+    const pagamento = document.getElementById("pagamento").value;
+    const valorEntrada = document.getElementById("valorEntrada").value;
+    const valorSaida = document.getElementById("valorSaida").value;
+
+    if (valorSaida && parseFloat(valorSaida) < parseFloat(valorEntrada)) {
+      alert("O valor de saída não pode ser menor que o valor de entrada.");
+      return;
+    }
+
+    const novoCadastro = {
+      entrada,
+      saida,
+      vendeu,
+      dadosVeiculo,
+      compradoDe,
+      anoVeiculo,
+      pagamento,
+      valorEntrada,
+      valorSaida
+    };
+
+    if (linhaEditando !== null) {
+      cadastros[linhaEditando] = novoCadastro;
+      linhaEditando = null;
+      document.getElementById("submitButton").textContent = "Cadastrar";
+    } else {
+      cadastros.push(novoCadastro);
+    }
+
+    salvarNoLocalStorage();
+    atualizarTabela();
+    document.getElementById("cadastroForm").reset();
+  });
+
+  carregarCadastros();
+</script>
+
+</body>
+</html>
