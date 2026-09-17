@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Garage Prime | Carros & Motos</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="topo">
+
+        <div class="logo">
+            <div class="logo-icone">🏁</div>
+
+            <div>
+                <h1>GARAGE <span>PRIME</span></h1>
+                <p>Carros & Motos</p>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="bolinha"></span>
+            Sistema online
+        </div>
+
+    </header>
+
+
+    <!-- CONTEÚDO -->
+    <main class="container">
+
+        <!-- TÍTULO -->
+        <section class="titulo">
+
+            <div>
+                <span class="subtitulo">PAINEL DA LOJA</span>
+
+                <h2>
+                    Controle seus veículos
+                    <span>com facilidade.</span>
+                </h2>
+
+                <p>
+                    Cadastre suas compras e vendas em um só lugar.
+                    Simples, organizado e feito para o dia a dia da sua loja.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- CARDS DE RESUMO -->
+        <section class="resumo">
+
+            <div class="resumo-card">
+
+                <div class="resumo-icone azul">
+                    🚗
+                </div>
+
+                <div>
+                    <span>VEÍCULOS CADASTRADOS</span>
+                    <strong id="totalVeiculos">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <div class="resumo-icone verde">
+                    💰
+                </div>
+
+                <div>
+                    <span>TOTAL EM VENDAS</span>
+                    <strong id="totalVendas">R$ 0,00</strong>
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card">
+
+                <div class="resumo-icone laranja">
+                    📈
+                </div>
+
+                <div>
+                    <span>LUCRO ESTIMADO</span>
+                    <strong id="lucroTotal">R$ 0,00</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FORMULÁRIO -->
+        <section class="painel">
+
+            <div class="painel-topo">
+
+                <div>
+
+                    <span class="subtitulo">
+                        NOVO CADASTRO
+                    </span>
+
+                    <h3>
+                        Adicionar veículo
+                    </h3>
+
+                </div>
+
+                <div class="icone-form">
+                    🚘
+                </div>
+
+            </div>
+
+
+            <form id="formVeiculo">
+
+
+                <!-- TIPO -->
+                <div class="campo campo-completo">
+
+                    <label>
+                        Tipo de veículo
+                    </label>
+
+                    <div class="tipo-veiculo">
+
+                        <label class="tipo-option">
+
+                            <input
+                                type="radio"
+                                name="tipo"
+                                value="Carro"
+                                checked>
+
+                            <span>
+                                🚗 Carro
+                            </span>
+
+                        </label>
+
+
+                        <label class="tipo-option">
+
+                            <input
+                                type="radio"
+                                name="tipo"
+                                value="Moto">
+
+                            <span>
+                                🏍️ Moto
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DATAS -->
+                <div class="form-grid">
+
+                    <div class="campo">
+
+                        <label for="dataEntrada">
+                            Data de entrada
+                        </label>
+
+                        <input
+                            type="date"
+                            id="dataEntrada"
+                            required>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="dataSaida">
+                            Data de saída
+                        </label>
+
+                        <input
+                            type="date"
+                            id="dataSaida">
+
+                    </div>
+
+
+                    <!-- CLIENTE -->
+                    <div class="campo">
+
+                        <label for="cliente">
+                            Cliente / comprador
+                        </label>
+
+                        <input
+                            type="text"
+                            id="cliente"
+                            placeholder="Ex.: João da Silva"
+                            required>
+
+                    </div>
+
+
+                    <!-- VEÍCULO -->
+                    <div class="campo">
+
+                        <label for="veiculo">
+                            Veículo
+                        </label>
+
+                        <input
+                            type="text"
+                            id="veiculo"
+                            placeholder="Ex.: Honda Civic 2022"
+                            required>
+
+                    </div>
+
+
+                    <!-- NEGOCIADO COM -->
+                    <div class="campo">
+
+                        <label for="compradoDe">
+                            Comprado de
+                        </label>
+
+                        <input
+                            type="text"
+                            id="compradoDe"
+                            placeholder="Nome do fornecedor"
+                            required>
+
+                    </div>
+
+
+                    <!-- ANO -->
+                    <div class="campo">
+
+                        <label for="ano">
+                            Ano do veículo
+                        </label>
+
+                        <input
+                            type="number"
+                            id="ano"
+                            placeholder="2024"
+                            min="1900"
+                            max="2100"
+                            required>
+
+                    </div>
+
+
+                    <!-- PAGAMENTO -->
+                    <div class="campo">
+
+                        <label for="pagamento">
+                            Forma de pagamento
+                        </label>
+
+                        <select id="pagamento" required>
+
+                            <option value="">
+                                Selecione...
+                            </option>
+
+                            <option value="Pix">
+                                Pix
+                            </option>
+
+                            <option value="Dinheiro">
+                                Dinheiro
+                            </option>
+
+                            <option value="Financiamento">
+                                Financiamento
+                            </option>
+
+                            <option value="Cartão">
+                                Cartão
+                            </option>
+
+                            <option value="Troca">
+                                Troca
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- VALOR COMPRA -->
+                    <div class="campo">
+
+                        <label for="valorEntrada">
+                            Valor de compra
+                        </label>
+
+                        <div class="input-dinheiro">
+
+                            <span>R$</span>
+
+                            <input
+                                type="number"
+                                id="valorEntrada"
+                                placeholder="0,00"
+                                step="0.01"
+                                min="0"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- VALOR VENDA -->
+                    <div class="campo">
+
+                        <label for="valorSaida">
+                            Valor de venda
+                        </label>
+
+                        <div class="input-dinheiro">
+
+                            <span>R$</span>
+
+                            <input
+                                type="number"
+                                id="valorSaida"
+                                placeholder="0,00"
+                                step="0.01"
+                                min="0"
+                                required>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOTÃO -->
+                <button
+                    type="submit"
+                    class="btn-cadastrar">
+
+                    <span>＋</span>
+
+                    Cadastrar veículo
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- LISTA -->
+        <section class="lista">
+
+            <div class="lista-topo">
+
+                <div>
+
+                    <span class="subtitulo">
+                        ESTOQUE E MOVIMENTAÇÃO
+                    </span>
+
+                    <h3>
+                        Veículos cadastrados
+                    </h3>
+
+                </div>
+
+
+                <div class="busca">
+
+                    <span>🔎</span>
+
+                    <input
+                        type="text"
+                        id="busca"
+                        placeholder="Buscar veículo...">
+
+                </div>
+
+            </div>
+
+
+            <!-- TABELA -->
+            <div class="tabela-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Tipo</th>
+
+                            <th>Veículo</th>
+
+                            <th>Ano</th>
+
+                            <th>Cliente</th>
+
+                            <th>Compra</th>
+
+                            <th>Venda</th>
+
+                            <th>Lucro</th>
+
+                            <th>Status</th>
+
+                            <th>Ações</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tabelaVeiculos">
+
+                    </tbody>
+
+                </table>
+
+
+                <div
+                    id="mensagemVazia"
+                    class="mensagem-vazia">
+
+                    <div>
+                        🚘
+                    </div>
+
+                    <h3>
+                        Seu estoque ainda está vazio
+                    </h3>
+
+                    <p>
+                        Cadastre seu primeiro carro ou moto
+                        usando o formulário acima.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FRASE HUMANIZADA -->
+        <section class="mensagem">
+
+            <div class="mensagem-icone">
+                🤝
+            </div>
+
+            <div>
+
+                <h3>
+                    Cada veículo tem uma história.
+                </h3>
+
+                <p>
+                    Organize suas negociações, acompanhe seus resultados
+                    e deixe o trabalho da sua loja mais tranquilo.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+    <footer>
+
+        <div>
+            🏁 <strong>GARAGE PRIME</strong>
+        </div>
+
+        <p>
+            Carros, motos e bons negócios.
+        </p>
+
+        <span>
+            © 2026 Garage Prime
+        </span>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
